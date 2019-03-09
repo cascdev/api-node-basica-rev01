@@ -1,27 +1,27 @@
-var express = require('express');
+const express = require('express')
 
-var app = express();
+const router = express.Router()
 
-let _ctrl = require('../controllers/usuario-controller');
+const _ctrl = require('../controllers/usuario-controller')
 
 // ==========================================
 // Obter todos os usuarios
 // ==========================================
-app.get('/',_ctrl.obterUsuarios);
+router.get('/',_ctrl.obterUsuarios)
 
 // ==========================================
 // Atualizar usuario
 // ==========================================
-app.put('/:id',_ctrl.atualizaUsuario);
+router.put('/:id',_ctrl.atualizaUsuario)
 
 // ==========================================
 // Criar um novo usuario
 // ==========================================
-app.post('/',_ctrl.criarUsuario);
+router.post('/',_ctrl.criarUsuario)
 
 // ============================================
 //   Deletar/Excluir um usuario por seu id
 // ============================================
-app.delete('/:id',_ctrl.deletarUsuario);
+router.delete('/:id',_ctrl.deletarUsuario)
 
-module.exports = app;
+module.exports = router

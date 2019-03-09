@@ -1,5 +1,5 @@
 
-let Usuario = require('../models/usuario');
+let Usuario = require('../models/usuario')
 
 
 // ==========================================
@@ -15,17 +15,17 @@ exports.obterUsuarios = (req, res, next) => {
                     return res.status(500).json({
                         ok: false,
                         mensagem: 'Error carregando usuario',
-                        errors: err
-                    });
+                        erros: err
+                    })
                 }
 
                 res.status(200).json({
                     ok: true,
                     usuarios: usuarios
-                });
+                })
 
-            });
-};
+            })
+}
 
 
 // ==========================================
@@ -33,8 +33,8 @@ exports.obterUsuarios = (req, res, next) => {
 // ==========================================
 exports.atualizaUsuario = (req, res) => {
 
-    let id = req.params.id;
-    let body = req.body;
+    let id = req.params.id
+    let body = req.body
 
     Usuario.findById(id, (err, usuario) => {
 
@@ -42,20 +42,20 @@ exports.atualizaUsuario = (req, res) => {
             return res.status(500).json({
                 ok: false,
                 mensagem: 'Error ao buscar usuario',
-                errors: err
-            });
+                erros: err
+            })
         }
         if (!usuario) {
             return res.status(400).json({
                 ok: false,
                 mensagem: 'O usuario com o id ' + id + ' nao existe',
-                errors: { message: 'Nao existe um usuario com esse ID' }
-            });
+                erros: { message: 'Nao existe um usuario com esse ID' }
+            })
         }
-        usuario.nome  = body.nome;
-        usuario.email = body.email;
-        usuario.img   = body.img;
-        usuario.role  = body.role;
+        usuario.nome  = body.nome
+        usuario.email = body.email
+        usuario.img   = body.img
+        usuario.role  = body.role
         
 
         usuario.save((err, usuarioGuardado) => {
@@ -64,19 +64,19 @@ exports.atualizaUsuario = (req, res) => {
                 return res.status(400).json({
                     ok: false,
                     mensagem: 'Error ao atualizar usuario',
-                    errors: err
-                });
+                    erros: err
+                })
             }
-            usuarioGuardado.password = ':)';
+            usuarioGuardado.password = ':)'
 
             res.status(200).json({
                 ok: true,
                 usuario: usuarioGuardado
-            });
+            })
 
-        });
+        })
 
-    });
+    })
 }
 
 // ==========================================
@@ -84,7 +84,7 @@ exports.atualizaUsuario = (req, res) => {
 // ==========================================
 exports.criarUsuario = (req, res) => {
 
-    let body = req.body;
+    let body = req.body
 
     let usuario = new Usuario({
         nome: body.nome,
@@ -92,32 +92,31 @@ exports.criarUsuario = (req, res) => {
         password: body.password,
         img: body.img,
         role: body.role
-    });
+    })
     usuario.save((err, usuarioGuardado) => {
 
         if (err) {
             return res.status(400).json({
                 ok: false,
                 mensagem: 'Erro ao criar usuario',
-                errors: err
-            });
+                erros: err
+            })
         }
         res.status(201).json({
             ok: true,
             usuario: usuarioGuardado,
             usuariog: req.usuario
-        });
+        })
 
-    });
+    })
 }
-
 
 // ============================================
 //   Deletar/Excluir um usuario por seu id
 // ============================================
 exports.deletarUsuario = (req, res) => {
 
-    let id = req.params.id;
+    let id = req.params.id
 
     Usuario.findByIdAndRemove(id, (err, usuarioExcluido) => {
 
@@ -125,21 +124,21 @@ exports.deletarUsuario = (req, res) => {
             return res.status(500).json({
                 ok: false,
                 mensagem: 'Erro ao excluir o usuario',
-                errors: err
-            });
+                erros: err
+            })
         }
         if (!usuarioExcluido) {
             return res.status(400).json({
                 ok: false,
                 mensagem: 'Nao existe um usuario com esse id',
-                errors: { message: 'Nao existe um usuario com esse id' }
-            });
+                erros: { message: 'Nao existe um usuario com esse id' }
+            })
         }
         res.status(200).json({
             ok: true,
             mensagem: `O usuário com o id: ${id} foi removido com sucesso.`,
             usuario: usuarioExcluido
-        });
+        })
 
-    });
+    })
 }
